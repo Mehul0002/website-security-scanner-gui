@@ -1,0 +1,42 @@
+name: Build Windows EXE
+
+# Automatically builds a standalone Windows .exe whenever you publish
+# a GitHub Release, and attaches it to that release - so users can
+# download and double-click to run, no Python required.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:  # also allows manual trigger from the Actions tab
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile --windowed --name security_scanner_gui security_scanner_gui.py
+
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/security_scanner_gui.exe
+
+      - name: Upload as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: security_scanner_gui-windows
+          path: dist/security_scanner_gui.exe
