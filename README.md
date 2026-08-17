@@ -4,9 +4,6 @@ Enter a website URL, click Scan, and get a report of common security
 misconfigurations — exact issue, page/location, severity, and how to
 fix it. Built with Python + Tkinter. Free, open source, runs locally.
 
-![Dashboard preview](screenshots/dashboard_preview.png)
-*Example scan results — findings sorted by severity, with the exact
-page and a fix suggestion for each issue.*
 
 ## ⚠️ Legal & accuracy notice — please read
 - **Only scan websites you own or have explicit written permission to
